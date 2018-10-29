@@ -1,0 +1,42 @@
+{
+	"targetDirectory": "/Users/yangshi/workspace/sport-asia-new/spot-dx-asia/force-app/main/default/profiles",
+	"possibleProfiles": [
+		"Admin",
+		"REA Agent Standard User",
+		"REA Country Operations and Support User",
+		"REA Developer Standard user",
+		"REA Expo Standard User",
+		"REA Finance User",
+		"REA Integration User",
+		"REA Media Standard User",
+		"REA Power User",
+		"REA Regional Operations and Support User",
+		"Read Only System Administrator"
+	],
+	"profileChanges": [
+		{
+			"operation": "add",
+			"profiles": [
+				"Admin",
+				"REA Agent Standard User",
+				"REA Country Operations and Support User"
+			],
+			"metadataType": "classAccesses",
+			"metadataName": "TestClass12",
+			"enabled": true
+		},
+		{
+			"operation": "add",
+			"profiles": [
+				"Admin",
+				"REA Agent Standard User",
+				"REA Country Operations and Support User",
+				"Read Only System Administrator"
+			],
+			"metadataType": "fieldPermissions",
+			"metadataName": "Account.Test_status__c",
+			"editable": true,
+			"readable": true
+		}
+	]
+}
