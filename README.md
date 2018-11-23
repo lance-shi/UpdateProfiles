@@ -14,4 +14,11 @@ Run npm install.
 Create a file in this folder called config.json
 Copy the content of sampleConfig.json into it
 Modify the class name, field name and profiles you want to edit, then save the file
-Run npm start
+
+### For Adding a field permission or class permission
+Run `npm start`
+
+### For Re-sorting the profiles
+Run `npm run reorder`
+
+
