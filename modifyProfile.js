@@ -68,6 +68,32 @@ for(let currentProfile of possibleProfiles)
                         profileNode.fieldPermissions.append(newNode);
                     }
                 }
+                else if(curChange.metadataType === "objectPermissions")
+                {
+                    newNode.allowCreate = curChange.allowCreate;
+                    newNode["object"] = curChange.metadataName;
+                    newNode.allowDelete = curChange.allowDelete;
+                    newNode.allowEdit = curChange.allowEdit;
+                    newNode.allowRead = curChange.allowRead;
+                    newNode.modifyAllRecords = curChange.modifyAllRecords;
+                    newNode.viewAllRecords = curChange.viewAllRecords;
+                    let nodeInserted = false;
+
+                    for(let i = 0; i < profileNode.objectPermissions.length; i++) 
+                    {
+                        if(newNode["object"].localeCompare(profileNode.objectPermissions[i]["object"]) < 0)
+                        {
+                            profileNode.objectPermissions.splice(i, 0, newNode);
+                            nodeInserted = true;
+                            break;
+                        }
+                    }
+
+                    if(!nodeInserted)
+                    {
+                        profileNode.objectPermissions.append(newNode);
+                    }
+                }
             }
         }
         
