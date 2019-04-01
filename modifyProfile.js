@@ -54,10 +54,9 @@ for(let currentProfile of possibleProfiles)
                         removeNode.apexClass = curChange.metadataName;
                         for(let i = 0; i < profileNode.classAccesses.length; i++) 
                         {
-                            if(removeNode.apexClass.localeCompare(profileNode.classAccesses[i].apexClass) < 0)
+                            if(removeNode.apexClass == profileNode.classAccesses[i].apexClass)
                             {
-                                console.log("i is: " + i);
-                                profileNode.classAccesses.splice(i - 2, 1);
+                                profileNode.classAccesses.splice(i, 1);
                                 break;
                             }
                         }
