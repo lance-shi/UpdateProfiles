@@ -27,23 +27,39 @@ for(let currentProfile of possibleProfiles)
                 let newNode = {};
                 if(curChange.metadataType === "classAccesses")
                 {
-                    newNode.apexClass = curChange.metadataName;
-                    newNode.enabled = curChange.enabled;
-                    let nodeInserted = false;
-
-                    for(let i = 0; i < profileNode.classAccesses.length; i++) 
+                    if(curChange.operation === "add") 
                     {
-                        if(newNode.apexClass.localeCompare(profileNode.classAccesses[i].apexClass) < 0)
+                        newNode.apexClass = curChange.metadataName;
+                        newNode.enabled = curChange.enabled;
+                        let nodeInserted = false;
+
+                        for(let i = 0; i < profileNode.classAccesses.length; i++) 
                         {
-                            profileNode.classAccesses.splice(i, 0, newNode);
-                            nodeInserted = true;
-                            break;
+                            if(newNode.apexClass.localeCompare(profileNode.classAccesses[i].apexClass) < 0)
+                            {
+                                profileNode.classAccesses.splice(i, 0, newNode);
+                                nodeInserted = true;
+                                break;
+                            }
+                        }
+
+                        if(!nodeInserted)
+                        {
+                            profileNode.classAccesses.append(newNode);
                         }
                     }
-
-                    if(!nodeInserted)
+                    else if(curChange.operation === "remove") 
                     {
-                        profileNode.classAccesses.append(newNode);
+                        let removeNode = {};
+                        removeNode.apexClass = curChange.metadataName;
+                        for(let i = 0; i < profileNode.classAccesses.length; i++) 
+                        {
+                            if(removeNode.apexClass.localeCompare(profileNode.classAccesses[i].apexClass) < 0)
+                            {
+                                profileNode.classAccesses.splice(i, 1);
+                                break;
+                            }
+                        }
                     }
                 }
                 else if(curChange.metadataType === "fieldPermissions")
@@ -71,11 +87,11 @@ for(let currentProfile of possibleProfiles)
                 else if(curChange.metadataType === "objectPermissions")
                 {
                     newNode.allowCreate = curChange.allowCreate;
-                    newNode["object"] = curChange.metadataName;
                     newNode.allowDelete = curChange.allowDelete;
                     newNode.allowEdit = curChange.allowEdit;
                     newNode.allowRead = curChange.allowRead;
                     newNode.modifyAllRecords = curChange.modifyAllRecords;
+                    newNode["object"] = curChange.metadataName;
                     newNode.viewAllRecords = curChange.viewAllRecords;
                     let nodeInserted = false;
 
