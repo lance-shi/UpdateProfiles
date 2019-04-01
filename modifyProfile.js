@@ -56,7 +56,8 @@ for(let currentProfile of possibleProfiles)
                         {
                             if(removeNode.apexClass.localeCompare(profileNode.classAccesses[i].apexClass) < 0)
                             {
-                                profileNode.classAccesses.splice(i, 1);
+                                console.log("i is: " + i);
+                                profileNode.classAccesses.splice(i - 2, 1);
                                 break;
                             }
                         }
