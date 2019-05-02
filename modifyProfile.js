@@ -64,24 +64,38 @@ for(let currentProfile of possibleProfiles)
                 }
                 else if(curChange.metadataType === "fieldPermissions")
                 {
-                    newNode.editable = curChange.editable;
-                    newNode.field = curChange.metadataName;
-                    newNode.readable = curChange.readable;
-                    let nodeInserted = false;
+                    if(curChange.operation === "add") {
+                        newNode.editable = curChange.editable;
+                        newNode.field = curChange.metadataName;
+                        newNode.readable = curChange.readable;
+                        let nodeInserted = false;
 
-                    for(let i = 0; i < profileNode.fieldPermissions.length; i++) 
-                    {
-                        if(newNode.field.localeCompare(profileNode.fieldPermissions[i].field) < 0)
+                        for(let i = 0; i < profileNode.fieldPermissions.length; i++) 
                         {
-                            profileNode.fieldPermissions.splice(i, 0, newNode);
-                            nodeInserted = true;
-                            break;
+                            if(newNode.field.localeCompare(profileNode.fieldPermissions[i].field) < 0)
+                            {
+                                profileNode.fieldPermissions.splice(i, 0, newNode);
+                                nodeInserted = true;
+                                break;
+                            }
+                        }
+
+                        if(!nodeInserted)
+                        {
+                            profileNode.fieldPermissions.append(newNode);
                         }
                     }
-
-                    if(!nodeInserted)
-                    {
-                        profileNode.fieldPermissions.append(newNode);
+                    else if(curChange.operation === "remove") {
+                        let removeNode = {};
+                        removeNode.field = curChange.metadataName;
+                        for(let i = 0; i < profileNode.fieldPermissions.length; i++) 
+                        {
+                            if(removeNode.field == profileNode.fieldPermissions[i].field)
+                            {
+                                profileNode.fieldPermissions.splice(i, 1);
+                                break;
+                            }
+                        }
                     }
                 }
                 else if(curChange.metadataType === "objectPermissions")
