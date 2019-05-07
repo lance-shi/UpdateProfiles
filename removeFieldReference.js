@@ -8,7 +8,7 @@ let devPath = configObj.targetDirectory;
 
 let profilePath = devPath + "/profiles";
 let permissionPath = devPath + "/permissionsets";
-let reportPath = devPath + "/reportTypes";
+let baseTranslationPath = devPath + "/objectTranslations";
 
 fs.readdir(profilePath, function(err, files) {
 	files.forEach(function(file) {
@@ -22,9 +22,12 @@ fs.readdir(profilePath, function(err, files) {
 			let profileNode = json.Profile;
 
 			for(let curField of configObj.removeFields) {
+				console.log("curField is: " + curField);
 				if(profileNode.fieldPermissions) {
 					for(let i = 0; i < profileNode.fieldPermissions.length; i++) {
+						console.log("comparing field is: " + profileNode.fieldPermissions[i].field);
 	                    if(curField == profileNode.fieldPermissions[i].field) {
+	                    	console.log("comparision result is: " + (curField == profileNode.fieldPermissions[i].field));
 	                        profileNode.fieldPermissions.splice(i, 1);
 	                        break;
 	                    }
@@ -85,3 +88,24 @@ fs.readdir(permissionPath, function(err, files) {
 		});
 	});
 });
+
+for(let curDir of configObj.translationDir) {
+	let translationPath = baseTranslationPath + "/" + curDir;
+	fs.readdir(translationPath, function(err, files) {
+		files.forEach(function(file) {
+			console.log(file);
+			let fileName = translationPath + "/" + file;
+			let data = fs.readFileSync(fileName);
+
+			for(let curField of configObj.removeFields) {
+				if(data.indexOf(curField) >= 0) {
+					try {
+						fs.unlinkSync(fileName);
+					} catch(e) {
+
+					}
+				}
+			}
+		});
+	});
+}
